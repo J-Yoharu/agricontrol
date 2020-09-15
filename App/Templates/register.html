@@ -1,0 +1,11 @@
+{%extends 'app.html'%} //herança 
+{% block title %} {{super()}} - register {%endblock%}
+{%block content%}
+<h1>{{ user }}</h1>
+<ul>
+    {%for item in user%}
+        <li>{{item}}</li>
+    {%endfor%}
+</ul>
+
+{%endblock%}

@@ -20,5 +20,9 @@ def login():
         print(form.errors)
     return render_template('login.html', form = form)
 
+# register route
+@app.route("/register")
+def register():
+    return render_template('register.html', user = [1, 2, 3, 4])
 
 
