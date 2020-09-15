@@ -1,0 +1,12 @@
+{% extends 'app.html' %}
+
+<!-- método super mantem o que tem no block e adiciona o conteudo adicional -->
+{% block title %} {{ super() }} - Index {% endblock %}
+
+{% block content %}
+    {% if user %}
+    <p>Bem vindo {{user}}</p>
+    {% else %}
+    <p>Bem vindo man</p>
+    {% endif %}
+{% endblock %}
