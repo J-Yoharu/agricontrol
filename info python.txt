@@ -57,3 +57,8 @@ $ flask db migrate
 $ flask db upgrade
 
 https://forum.rasa.com/t/mysql-tracker-store-gives-error-varchar-requires-a-length-on-dialect-mysql/10486/2
+
+
+    def visit_VARCHAR(self, type_, **kw):
+        if type_.length is None:
+            type_.length = 1050

@@ -1,31 +1,59 @@
 
-from flask import render_template,request
+from flask import render_template,request,redirect,url_for,session
+from markupsafe import escape
 from App import app,db
 from App.Templates.Components.formLogin import LoginForm
-
+import os,os.path
 from App.Models.User import  User
 
-from App.Controllers.loginController import AuthFinger
+from App.Controllers.loginController import AuthFinger,Register
 
 # index routes
-@app.route("/index/<user>")
-@app.route("/", defaults = {"user": None})
-def index(user):
-    return render_template('index.html',user = user)
+# @app.route("/", defaults = {"user": None})
+# def index(user):
+#     return render_template('index.html',user = user)
+
+@app.route("/")
+def index():
+    if 'username' in session:
+        return render_template('index.html',user = escape(session['username']))
+    return redirect(url_for('login'))
 
 # login route
 @app.route("/login", methods =['POST','GET'])
 def login():
     form = LoginForm()
-    if form.validate_on_submit():       
+    # validando formulário
+    if form.validate_on_submit():
         print(form.username.data)
         print(form.password.data)
-        AuthFinger()
+        
+        userSelect = User.query.filter_by(username=form.username.data).first()
+        # vaidando usuário
+        if(userSelect!=None):
 
-        return render_template('index.html')
+            # validando digital
+            if AuthFinger(userSelect.fingerimage):
+                session['username'] = form.username.data
+                return redirect(url_for('index'), code=302)
+            else:
+                errorFinger = "Digital não cadastrada ou incorreta"
+                return render_template('login.html', form = form,errorBd = errorFinger)
+
+        else:
+            # print(form.errors)
+            errorUser = 'Usuário nao encontrado'
+            return render_template('login.html', form = form,errorBd = errorUser)
+
     else:
         print(form.errors)
         return render_template('login.html', form = form)
+
+@app.route('/logout')
+def logout():
+    # remove the username from the session if it's there
+    session.pop('username', None)
+    return redirect(url_for('login'))
 
 # register route
 @app.route("/register")
@@ -34,7 +62,7 @@ def register():
 
 @app.route("/create")
 def create():
-    i = User("jonathasa","123","jonathas", "/Imagem/a.png")
+    i = User("jonathasa","123","jonathas", "/Images/a.png")
     db.session.add(i)
     db.session.commit()
     return "CREATE"
