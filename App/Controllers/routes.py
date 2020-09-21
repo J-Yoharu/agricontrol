@@ -3,10 +3,9 @@ from flask import render_template,request
 from App import app,db
 from App.Templates.Components.formLogin import LoginForm
 
-from werkzeug.utils import secure_filename
-from werkzeug.datastructures import  FileStorage
 from App.Models.User import  User
-import os,os.path
+
+from App.Controllers.loginController import AuthFinger
 
 # index routes
 @app.route("/index/<user>")
@@ -18,19 +17,11 @@ def index(user):
 @app.route("/login", methods =['POST','GET'])
 def login():
     form = LoginForm()
-    if form.validate_on_submit():
-        image = request.files['image']
-        # permanece o nome original da imagem
-        # filename = secure_filename(image.filename.rsplit('.', 1)[0])
-        filename = 'image'
-        ext = '.'+image.filename.rsplit('.', 1)[1]
-        qtdArchives = str(len(os.listdir('Images')))
-
+    if form.validate_on_submit():       
         print(form.username.data)
         print(form.password.data)
-        print(filename)
-        
-        image.save(os.path.join(app.config['UPLOAD_FOLDER'], filename + qtdArchives + ext))
+        AuthFinger()
+
         return render_template('index.html')
     else:
         print(form.errors)
