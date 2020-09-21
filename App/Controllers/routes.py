@@ -36,18 +36,16 @@ def login():
             if AuthFinger(userSelect.fingerimage):
                 session['username'] = form.username.data
                 return redirect(url_for('index'), code=302)
-            else:
-                errorFinger = "Digital não cadastrada ou incorreta"
-                return render_template('login.html', form = form,errorBd = errorFinger)
+                
+            errorFinger = "Digital não cadastrada ou incorreta"
+            return render_template('login.html', form = form,errorBd = errorFinger)
 
-        else:
-            # print(form.errors)
-            errorUser = 'Usuário nao encontrado'
-            return render_template('login.html', form = form,errorBd = errorUser)
+        # print(form.errors)
+        errorUser = 'Usuário nao encontrado'
+        return render_template('login.html', form = form,errorBd = errorUser)
 
-    else:
-        print(form.errors)
-        return render_template('login.html', form = form)
+    print(form.errors)
+    return render_template('login.html', form = form)
 
 @app.route('/logout')
 def logout():

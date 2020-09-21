@@ -14,10 +14,14 @@ def AuthFinger(fingerUser):
     ext = '.'+image.filename.rsplit('.', 1)[1]
 
     image.save(os.path.join(folder , filename + ext))
-    print(fingerUser)
-    print(filename+ext)
-    return True
+
+    print(os.path.join(app.config['UPLOAD_FOLDER'],fingerUser))
+    print(os.path.join(app.config['UPLOAD_FOLDER'],filename+ext))
+
     
+
+    return True
+
 def Register():
     image = request.files['image']
     # os.path pega o caminho absoluto para a pasta

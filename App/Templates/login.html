@@ -33,14 +33,14 @@
                     {% endif %}
                     <div class="input-group mb-4">
                       <div class="input-group-prepend">
-                        <div class="input-group-text"> <i class="fa fa-2x fa-at"></i> </div>
+                        <div class="input-group-text"> <i class="fa fa-2x fa-user"></i> </div>
                       </div>
                       {{form.username(class="form-control form-control-lg")}}
                     </div>
 
                 </div>
 
-                <div class="col p-0">
+                <div class="col p-0 d-none">
 
                     {% if form.errors.password %}
                       {% for error in form.errors.password %}
@@ -83,7 +83,7 @@
                 <button type="submit" class="btn btn-block btn-primary">Logar</button>
               
                 <div class="mt-5 d-flex justify-content-center">
-                   <a href="#"> <p>cadastrar-se</p> </a> 
+                   <a href="/register"> <p>cadastrar-se</p> </a> 
                 </div>
               </form>
         </div>
