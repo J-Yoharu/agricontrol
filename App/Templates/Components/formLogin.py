@@ -5,5 +5,4 @@ from wtforms.validators import DataRequired
 class LoginForm(FlaskForm):
     username = StringField("username", validators = [DataRequired()])
     password = PasswordField("Senha")
-    # image = FileField("image", validators = [DataRequired()])
-    image = FileField("image")
+    image = FileField("image", validators = [DataRequired()])

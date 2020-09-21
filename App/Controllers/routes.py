@@ -56,7 +56,7 @@ def logout():
 # register route
 @app.route("/register")
 def register():
-    return render_template('register.html', user = [1, 2, 3, 4])
+    return render_template('register.html', user = escape(session['username']))
 
 @app.route("/create")
 def create():
