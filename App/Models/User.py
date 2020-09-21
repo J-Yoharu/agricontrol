@@ -1,10 +1,10 @@
 from App import db
-
+from alembic import op
 class User(db.Model):
     __tablename__ = "users"
 
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String, unique=True)
+    username = db.Column('username',db.String, unique=True)
     password = db.Column(db.String)
     name = db.Column(db.String)
     fingerimage = db.Column(db.String)
@@ -16,4 +16,5 @@ class User(db.Model):
         self.fingerimage = fingerimage
 
     def __repr(self):
+        # return self.password
         return "<User %r>" % self.username
