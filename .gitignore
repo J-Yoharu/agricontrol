@@ -1,3 +1,4 @@
 # created by virtualenv automatically
-*teste
-*config.py
+# *config.py
+*ambvirtual
+__pycache__
