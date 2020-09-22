@@ -3,6 +3,8 @@ from flask import render_template,request,redirect,url_for,session
 from markupsafe import escape
 from App import app,db
 from App.Templates.Components.formLogin import LoginForm
+from App.Templates.Components.formRegister import RegisterForm
+
 import os,os.path
 from App.Models.User import  User
 
@@ -54,9 +56,12 @@ def logout():
     return redirect(url_for('login'))
 
 # register route
-@app.route("/register")
+@app.route("/register", methods =['POST','GET'])
 def register():
-    return render_template('register.html', user = escape(session['username']))
+    form = RegisterForm()
+    if form.validate_on_submit():
+        return "OK"
+    return render_template('register.html', form = form, user = escape(session['username']))
 
 @app.route("/create")
 def create():
