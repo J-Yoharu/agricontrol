@@ -11,7 +11,7 @@ class User(db.Model):
     name = db.Column(db.String)
     fingerimage = db.Column(db.String)
 
-    def __init__(self, username, password, name, fingerimage):
+    def __init__(self, username, password, name, fingerimage, email, nivelAcesso):
         self.username = username
         self.password = password
         self.nivelAcesso = nivelAcesso

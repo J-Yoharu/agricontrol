@@ -59,13 +59,27 @@ def logout():
 @app.route("/register", methods =['POST','GET'])
 def register():
     form = RegisterForm()
+    userExist = User.query.filter_by(username=form.username.data).first()
+
+    if userExist:
+        return render_template('register.html', form = form,messageBd = "Nome de usuário já em uso, escolha outro!" , user = escape(session['username']))
+
     if form.validate_on_submit():
-        return "OK"
+        fingerImageName = Register()
+        createUser = User(form.username.data, form.password.data, form.name.data, fingerImageName, form.email.data, form.nivel.data)
+        db.session.add(createUser)
+        db.session.commit()
+        form= RegisterForm()
+        return render_template('register.html', form = form, messageBd="Cadastrado com sucesso" ,user = escape(session['username']))
+
     return render_template('register.html', form = form, user = escape(session['username']))
+
+
+
 
 @app.route("/create")
 def create():
-    i = User("jonathasa","123","jonathas", "/Images/a.png")
+    i = User("jonathasa","123","jonathas augusto", "/Images/a.png", "a@gmail.com",1)
     db.session.add(i)
     db.session.commit()
     return "CREATE"

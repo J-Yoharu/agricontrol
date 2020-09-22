@@ -64,4 +64,6 @@ def Register():
     qtdArchives = str(len(os.listdir('Images')))
 
     print(filename)
-    image.save(os.path.join(folder , filename + qtdArchives + ext))
+    imageName = filename + qtdArchives + ext
+    image.save(os.path.join(folder , imageName))
+    return imageName
