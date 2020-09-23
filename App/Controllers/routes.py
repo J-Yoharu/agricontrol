@@ -4,9 +4,9 @@ from markupsafe import escape
 from App import app,db
 from App.Templates.Components.formLogin import LoginForm
 from App.Templates.Components.formRegister import RegisterForm
-
+import json
 import os,os.path
-from App.Models.User import  User
+from App.Models.Models import  User,Producer
 
 from App.Controllers.loginController import AuthFinger,Register
 
@@ -14,11 +14,19 @@ from App.Controllers.loginController import AuthFinger,Register
 # @app.route("/", defaults = {"user": None})
 # def index(user):
 #     return render_template('index.html',user = user)
+class Usuario:
+    def __init__(self,name , username, nivel):
+        self.name = name
+        self.username = username
+        self.nivel = nivel
 
 @app.route("/")
 def index():
-    if 'username' in session:
-        return render_template('index.html',user = escape(session['username']))
+    if 'user' in session:
+        Producers = Producer.query.all()
+        return render_template('index.html',
+                user = escape(session['user']),
+                Producers = Producers)
     return redirect(url_for('login'))
 
 # login route
@@ -36,7 +44,8 @@ def login():
 
             # validando digital
             if AuthFinger(userSelect.fingerimage):
-                session['username'] = form.username.data
+                currentUser = Usuario(userSelect.name, userSelect.username, userSelect.nivelAcesso)
+                session['user'] = currentUser
                 return redirect(url_for('index'), code=302)
                 
             errorFinger = "Digital não cadastrada ou incorreta"
@@ -52,7 +61,7 @@ def login():
 @app.route('/logout')
 def logout():
     # remove the username from the session if it's there
-    session.pop('username', None)
+    session.pop('user', None)
     return redirect(url_for('login'))
 
 # register route

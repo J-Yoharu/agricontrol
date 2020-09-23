@@ -5,6 +5,28 @@
 
 {% block content %}
 
-AQUI JÁZ OS DADOS DOS CARAS
+<table class="table text-center">
+    <thead>
+        <tr>
+            <th>Nome</th>
+            <th>Cultivo</th>
+            <th>qtdAnual</th>
+            <th>Agrotóxico</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for producer in Producers %}
+        <tr>
+            <td>{{ producer.name }}</td>
+            <td>{{ producer.farming }}</td>
+            <td>{{ producer.annualamount }}</td>
+            <td>{{ producer.pesticide }}</td>
+
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+
 
 {% endblock %}

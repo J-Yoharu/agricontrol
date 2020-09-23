@@ -21,4 +21,22 @@ class User(db.Model):
 
     def __repr(self):
         # return self.password
-        return "<User %r>" % self.username
+        return "<Userrrr %r>" % self.password
+# --------------------------------------------------------------
+class Producer(db.Model):
+    __tablename__ = "producers"
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String, unique=True)
+    farming = db.Column(db.String)
+    annualamount = db.Column(db.Integer)
+    pesticide = db.Column(db.String)
+
+    def __init__(self, name, farming, annualamount, pesticide):
+        self.name = name
+        self.farming = farming
+        self.annualamount = annualamount
+        self.pesticide = pesticide
+
+    def __repr(self):
+        return "<Producer %r>" % self.name
