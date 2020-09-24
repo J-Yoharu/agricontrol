@@ -60,6 +60,7 @@ def login():
 @app.route('/logout')
 def logout():
     # remove the username from the session if it's there
+    a =  teste
     session.pop('user', None)
     session.pop('nivel',None)
     return redirect(url_for('login'))
