@@ -32,7 +32,7 @@
                       <div class="input-group-prepend">
                         <div class="input-group-text"> <i class="fa fa-2x fa-at"></i> </div>
                       </div>
-                      {{form.email(class="form-control form-control-lg", placeholder="E-mail")}}
+                      {{form.email(class="form-control form-control-lg",id="email", placeholder="E-mail")}}
                     </div>
 
                 </div>
@@ -47,7 +47,7 @@
                       <div class="input-group-prepend">
                         <div class="input-group-text"> <i class="fa fa-2x fa-user"></i> </div>
                       </div>
-                      {{form.username(class="form-control form-control-lg", placeholder="Username")}}
+                      {{form.username(class="form-control form-control-lg",id="username", placeholder="Username")}}
                     </div>
 
                 </div>
@@ -62,7 +62,7 @@
                     <div class="input-group-prepend">
                       <div class="input-group-text"> <i class="fa fa-2x fa-user"></i> </div>
                     </div>
-                    {{form.name(class="form-control form-control-lg", placeholder="Nome completo")}}
+                    {{form.name(class="form-control form-control-lg",id="name", placeholder="Nome completo")}}
                   </div>
 
               </div>
@@ -78,7 +78,7 @@
                       <div class="input-group-prepend">
                         <div class="input-group-text"> <i class="fa fa-2x fa-key"></i> </div>
                       </div>
-                      {{form.password(class="form-control form-control-lg", placeholder="Senha")}}
+                      {{form.password(class="form-control form-control-lg", id="password", placeholder="Senha")}}
                     </div>
 
                 </div>
@@ -94,7 +94,7 @@
                       <div class="input-group-prepend">
                         <div class="input-group-text"> <i class="fa fa-2x fa-key"></i> </div>
                       </div>
-                      {{form.confirm(class="form-control form-control-lg", placeholder="Repita a senha")}}
+                      {{form.confirm(class="form-control form-control-lg", id="confirm", placeholder="Repita a senha")}}
                     </div>
 
                 </div>
@@ -111,7 +111,7 @@
                       <div class="input-group-prepend">
                         <div class="input-group-text"> <i class="fa fa-2x fa-user-lock"></i> </div>
                       </div>
-                      {{form.nivel(class="form-control form-control-lg text-center", placeholder="Senha")}}
+                      {{form.nivel(class="form-control form-control-lg text-center",placeholder="Senha")}}
                     </div>
 
                 </div>
@@ -148,6 +148,11 @@
 </div>
 
 <script>
+    document.getElementById("email").focus();
+    campos = ['email','name','username','password','confirm']
+    campos.forEach((campo)=>{
+        document.getElementById(campo).value=""
+    })
   let input = document.getElementById('inputFile'),
   fileName = document.getElementById('fileName');
 
