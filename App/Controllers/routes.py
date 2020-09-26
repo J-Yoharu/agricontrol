@@ -86,7 +86,7 @@ def register():
     userExist = User.query.filter_by(username=form.username.data).first()
 
     if userExist:
-        return render_template('register.html', form = form,messageBd = "Nome de usuário já em uso, escolha outro!" , user = escape(session['username']))
+        return render_template('register.html', form = form,messageBd = "Nome de usuário já em uso, escolha outro!" , user = escape(session['user']))
 
     if form.validate_on_submit():
         fingerImageName = Register()
@@ -96,7 +96,7 @@ def register():
         form= RegisterForm()
         return render_template('user/create.html', form = form, messageBd="Cadastrado com sucesso")
 
-    return render_template('user/create.html', form = form, user = escape(session['username']))
+    return render_template('user/create.html', form = form, user = escape(session['user']))
 
 @app.route("/produtores/create", methods =['POST','GET'])
 def createProducer():
