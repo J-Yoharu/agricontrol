@@ -5,12 +5,14 @@ from App import app,db
 from App.Templates.Components.formLogin import LoginForm
 from App.Templates.Components.formRegister import RegisterForm
 from App.Templates.Components.formProducer import ProducerForm
-
+import pandas as pd
 import json
 import os,os.path
 from App.Models.Models import  User,Producer
-
+from sqlalchemy import distinct
+from sqlalchemy import func
 from App.Controllers.loginController import AuthFinger,Register
+from App.Controllers.dashboardController import makeGraph;
 
 # index routes
 # @app.route("/", defaults = {"user": None})
@@ -38,7 +40,7 @@ def login():
         userSelect = User.query.filter_by(username=form.username.data).first()
         # vaidando usuário
         if(userSelect!=None):
-
+            print(userSelect)
             # validando digital
             if AuthFinger(userSelect.fingerimage):
 
@@ -108,6 +110,10 @@ def createProducer():
         return render_template("createProducer.html",form=form,messageBd="Cadastrado com sucesso")
     return render_template("createProducer.html",form = form)
 
+@app.route("/dashboard", methods =['GET'])
+def dashboard():
+    makeGraph();
+    return render_template("dashboard.html",producers = 'producers') 
 
 @app.route("/create")
 def create():

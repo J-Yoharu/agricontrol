@@ -1,0 +1,36 @@
+{% extends 'app_auth.html' %}
+
+<!-- método super mantem o que tem no block e adiciona o conteudo adicional -->
+{% block title %} {{ super() }} - dashboard {% endblock %}
+
+{% block content %}
+<div class="wrapper">
+    {%for producer in producers%}  
+    {{producer}}
+    {%endfor%}
+    <div class="row">
+        <div class="col text-center">
+            <h1>plot1</h1>
+        <img class="hover" src="/static/images/plot1.png" style="width:30rem" alt="images">
+
+        </div>
+        <div class="col text-center">
+            <h1>plot2</h1>
+            <img src="/static/images/plot2.png" style="width:30rem" alt="images">
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="col text-center">
+            <h1>plot3</h1>
+            <img src="/static/images/plot3.png" style="width:30rem" alt="images">
+
+        </div>
+        <div class="col text-center">
+            <h1>plot4</h1>
+            <img src="/static/images/plot4.png" style="width:30rem" alt="images">
+
+        </div>
+    </div>
+</div>
+{%endblock%}
