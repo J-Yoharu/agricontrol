@@ -7,8 +7,10 @@ import numpy as np
 import pandas as pd
 
 
-FontSize = 14
+FontSize = 20
 def makeGraph():
+    # TIRAR ERRO DE RODAR O SERVIDOR TODA HORA.
+    plt.switch_backend('agg')
     con = MySQLdb.connect('50.116.112.31', 'tourvi45_aps', 'unip@2020')
     con.select_db('tourvi45_APS')
     cursor = con.cursor()
@@ -48,13 +50,17 @@ def makeGraph():
 
         for value in plot1_cult_qtd:
             porcent_culti.append((value / plot1_totalCulti[0]) * 100)
+        
+        porcent = pd.Series(porcent_culti)
+        print(porcent)
 
+        porcent.astype(float).plot(color = 'blue')
         plt.bar(plot1_labels,  porcent_culti, color = '#F2410C')
-        plt.title("Quantidade de Produtos", fontsize = FontSize)
+        # plt.tick_params(labelsize= 11)
         plt.xlabel("Produtos", fontsize = FontSize)
         plt.ylabel("% Porcentagem", fontsize = FontSize)
         plt.savefig("App/Static/images/plot1.png")
-        plt.show()
+        plt.close()
         
     # --------------------------------------------------------------------------------------------
 
@@ -69,14 +75,16 @@ def makeGraph():
         for valor in labels_pesticide:
             plot2_labels.append(valor[0])
 
-        sns.set_style("whitegrid")
+        porcent = pd.Series(plot2_agro_qtd)
+
         plt.figure(figsize=(10,8))
+        porcent.astype(float).plot(color = 'blue')
         plt.bar(plot2_labels,  plot2_agro_qtd, color = 'red')
-        plt.title("Agrotóxicos Usados", fontsize = FontSize)
+        plt.tick_params(labelsize= 15)
         plt.xlabel("Agrotóxicos", fontsize = FontSize)
         plt.ylabel("Quantidade", fontsize = FontSize)
         plt.savefig("App/Static/images/plot2.png")
-        plt.show()
+        plt.close()
 
 # --------------------------------------------------------------------------------------------
     def plot3():
@@ -96,10 +104,9 @@ def makeGraph():
             plot3_porcent_culti.append((value / plot3_totalCulti[0]) * 100)
         
         plt.pie(plot3_porcent_culti, labels= plot3_labels, autopct="%2.2f%%")
-        plt.title("Porcentagem Dos Produtos Usados", fontsize = FontSize)
         plt.legend(plot3_labels,bbox_to_anchor = [1, 1])
         plt.savefig("App/Static/images/plot3.png")
-        plt.show()
+        plt.close()
 
 # --------------------------------------------------------------------------------------------
     def plot4():
@@ -119,10 +126,9 @@ def makeGraph():
             plot4_porcent_agri.append((value / plot4_totalagri[0][0]) * 100)
         
         plt.pie(plot4_porcent_agri, labels= plot4_labels, autopct="%2.2f%%")
-        plt.title("Porcentagem Dos Agrotóxicos Usados", fontsize = FontSize)
         plt.legend(plot4_labels, bbox_to_anchor = [1, 1])
         plt.savefig("App/Static/images/plot4.png")
-        plt.show()
+        plt.close()
         
     plot1()
     plot2()

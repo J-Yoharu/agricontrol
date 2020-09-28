@@ -132,7 +132,7 @@
         campos.forEach((campo)=>{
                 data.push(document.getElementById(campo).value)
         })
-        axios.post("https://agricontrol.herokuapp.com//updateuser",{id:id,nome:data[0],username:data[1],email:data[2],nivel:data[3]}).then((resp)=>{
+        axios.post("http://127.0.0.1:5000/updateuser",{id:id,nome:data[0],username:data[1],email:data[2],nivel:data[3]}).then((resp)=>{
             alerta("editado com sucesso")
             document.getElementById("userTemplateName").innerText = document.getElementById("username").value;
 
@@ -147,7 +147,7 @@
         }
         if($("#btnExcluir").hasClass("btn-danger")){
             if(confirm("Tem certeza que deseja excluir esse usuário?")){
-            axios.post("https://agricontrol.herokuapp.com/deleteuser",{"id":id}).then((resp)=>{
+            axios.post("http://127.0.0.1:5000/deleteuser",{"id":id}).then((resp)=>{
             alerta("Excluido o usuário com sucesso!")
                 campos.forEach((campo)=>{
                 document.getElementById(campo).value="";
