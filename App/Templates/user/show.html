@@ -147,7 +147,7 @@
         }
         if($("#btnExcluir").hasClass("btn-danger")){
             if(confirm("Tem certeza que deseja excluir esse usuário?")){
-            axios.post("http://127.0.0.1:5000/deleteuser",{"id":id}).then((resp)=>{
+            axios.post("https://agricontrol.herokuapp.com/deleteuser",{"id":id}).then((resp)=>{
             alerta("Excluido o usuário com sucesso!")
                 campos.forEach((campo)=>{
                 document.getElementById(campo).value="";
