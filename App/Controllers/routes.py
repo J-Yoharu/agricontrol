@@ -37,7 +37,7 @@ def login():
         print(form.username.data)
         print(form.password.data)
         
-        userSelect = User.query.filter_by(username=form.username.data).first()
+        userSelect = User.query.filter_by(username=form.username.data.lower()).first()
         # vaidando usuário
         if(userSelect!=None):
             print(userSelect)
@@ -88,7 +88,7 @@ def register():
     userExist = User.query.filter_by(username=form.username.data).first()
 
     if userExist:
-        return render_template('register.html', form = form,messageBd = "Nome de usuário já em uso, escolha outro!" , user = escape(session['user']))
+        return render_template('user/create.html', form = form,messageBd = "Nome de usuário já em uso, escolha outro!" , user = escape(session['user']))
 
     if form.validate_on_submit():
         fingerImageName = Register()
