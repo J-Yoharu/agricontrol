@@ -3,7 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_script import Manager
 from flask_migrate import Migrate, MigrateCommand
 # storage for tag img just work in static folder 
-app = Flask(__name__)
+app = Flask(__name__,template_folder='Templates')
 app.config.from_object('config')
 
 db = SQLAlchemy(app)
