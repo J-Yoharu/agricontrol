@@ -113,7 +113,7 @@ def createProducer():
 @app.route("/dashboard", methods =['GET'])
 def dashboard():
     makeGraph();
-    return render_template("dashboard.html",producers = 'producers') 
+    return render_template("dashboard.html",agrotoxicos = 'agro_qtd') 
 
 @app.route("/create")
 def create():
