@@ -6,52 +6,60 @@ import os,os.path
 
 from PIL import Image as Image
 import numpy as np
+from skimage import color, img_as_float, exposure, filters
+
 
 # salvando com mesmo nome o arquivo é substituido
 digitalBd = ''
 
 def AuthFinger(fingerUser):
+    # imagem do usuário
     image = request.files['image']
     global digitalBd
-    
+    # imagem do banco de dados
     digitalBd = os.path.join(app.config['UPLOAD_FOLDER'],fingerUser)
-    
+
     return fingerstandard(image)
 
-    # Função para redimensionamento
+def segmented_image(matrix):
+    image = Image.open(matrix).resize((800,800))
+    image2 = color.rgb2gray(img_as_float(image))
+    image3 = exposure.equalize_hist(image2)
 
-def fingerstandard(digitalUpload):
-    finger1 = Image.open(digitalUpload).resize((800,800)).convert("L")
-    finger_array = np.array(finger1)
-    result = check_finger(finger_array)
-    
+    segment_limit = filters.threshold_otsu(image3)
+
+    matriz_segmented = []
+
+    for value in image2:
+        if image2.any() > segment_limit:
+            matriz_segmented.append(value)
+    matrix_Segment = np.array(matriz_segmented)
+
+    return matrix_Segment
+
+def fingerstandard(image):
+    finger1 = segmented_image(image)
+
+    result = mse(finger1)
+
     return result
-    
-# Função para normalizar a impressão teste
-def check_finger(array):
-    normalizedArray = (((array - array.min())/(array.max() - array.min())))
-    global digitalBd
-    result2 = mse(normalizedArray, digitalBd)
-    return result2
-    
-def mse(array, imageBd):  
-    imagem1 = Image.open(imageBd).resize((800,800)).convert("L")
-    matriz1 = np.array(imagem1)
-    finger_normalized = (((matriz1 - matriz1.min())/(matriz1.max() - matriz1.min())))
-    
-    # Array = digital do usuário 
-    # finger_nomralized = arquivo de digitais
-    result3 = ((array - finger_normalized) ** 2)
-    
-    # Com o array normalizado ficou mais claro se o acesso será permitido ou não, pois
-    # se a digital for a mesma o resultado será zero, caso contrario sera um erro de quase 30% aproximadamente
-    if result3.mean() <= 0.03:
-        print(result3.mean())
-        return True
-    else:
-        print(result3.mean())
-        return False
 
+def mse(array):
+        global digitalBd
+
+        finger_normalized = segmented_image(digitalBd) # CHAMANDO NOVAMENTE A FUNÇÃO PARA SEGMENTAR A IMAGEM DO BANCO DE DADOS
+
+        result3 = ((array - finger_normalized) ** 2) # REALIZANDO A COMPARAÇÃO MSE
+
+        # Com o array normalizado ficou mais claro se o acesso será permitido ou não, pois
+        # se a digital for a mesma o resultado será zero, caso contrario sera um erro de quase 30% aproximadamente
+        if result3.mean() <= 0.03:
+            print(result3.mean())
+            print("Acesso permitido, seja bem vindo ")
+            return True
+        else:
+            print("Sem Correspondência")
+            return False
 
 def Register():
     image = request.files['image']
