@@ -13,7 +13,7 @@ from sqlalchemy import distinct
 from sqlalchemy import func
 from App.Controllers.loginController import AuthFinger,Register
 from App.Controllers.dashboardController import makeGraph;
-
+import MySQLdb # para o MySQL
 # index routes
 # @app.route("/", defaults = {"user": None})
 # def index(user):
@@ -22,31 +22,38 @@ from App.Controllers.dashboardController import makeGraph;
 @app.route("/")
 def index():
     if 'user' in session:
-        Producers = Producer.query.all()
+        con = MySQLdb.connect('50.116.112.31', 'tourvi45_aps', 'unip@2020')
+        con.select_db('tourvi45_APS')
+        cursor = con.cursor()
+        cursor.execute("select * from producers")
         return render_template('index.html',
                 nivel = int(escape(session['nivel'])),
-                Producers = Producers)
+                Producers = cursor.fetchall())
     return redirect(url_for('login'))
 
 # login route
 @app.route("/login", methods =['POST','GET'])
 def login():
+    con = MySQLdb.connect('50.116.112.31', 'tourvi45_aps', 'unip@2020')
+    con.select_db('tourvi45_APS')
+    cursor = con.cursor()
     form = LoginForm()
     # validando formulário
     if form.validate_on_submit():
         print(form.username.data)
         print(form.password.data)
-        
-        userSelect = User.query.filter_by(username=form.username.data.lower()).first()
+        cursor.execute("select * from users where username = '"+form.username.data.lower()+"'")
+        userSelect = cursor.fetchone()
+        print("embaixo user select")
+        print(userSelect)
         # vaidando usuário
-        if(userSelect!=None):
-            print(userSelect)
+        if ( userSelect != None):
             # validando digital
-            if AuthFinger(userSelect.fingerimage):
+            if AuthFinger(userSelect[6]):
 
                 # validou com sucesso
-                session['user'] = userSelect.username
-                session['nivel'] = userSelect.nivelAcesso
+                session['user'] = userSelect[1]
+                session['nivel'] = userSelect[3]
                 return redirect(url_for('index'), code=302)
                 
             errorFinger = "Digital não cadastrada ou incorreta"

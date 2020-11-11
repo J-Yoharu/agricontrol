@@ -25,18 +25,18 @@
     <tbody>
         {% for producer in Producers %}
         <tr>
-            <td>{{ producer.name }}</td>
+            <td>{{ producer[1] }}</td>
 
             {% if nivel >=1 %}
-                <td>{{ producer.farming }}</td>
+                <td>{{ producer[2] }}</td>
             {% endif %}
 
             {% if nivel >=2 %}
-                <td>{{ producer.annualamount }}</td>
+                <td>{{ producer[3] }}</td>
             {% endif %}
 
             {% if nivel == 3 %}
-                <td>{{ producer.pesticide }}</td>
+                <td>{{ producer[4] }}</td>
             {%endif%}
         </tr>
         {% endfor %}
